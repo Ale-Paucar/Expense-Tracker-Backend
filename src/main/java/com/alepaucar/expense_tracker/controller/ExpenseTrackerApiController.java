@@ -65,13 +65,15 @@ public class ExpenseTrackerApiController {
     }
     //Update expense
     @PutMapping("/expense/{id}")
-    public void updateExpense(@PathVariable Long id, @RequestBody ExpenseReqDTO expenseReqDTO){
-
+    public ResponseEntity<ExpenseResDTO>  updateExpense(@PathVariable Long id, @RequestBody ExpenseReqDTO expenseReqDTO){
+        ExpenseResDTO res = expenseApiService.updateExistingExpense(id,expenseReqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
     //Delete expense
     @DeleteMapping("/expense/{id}")
-    public void deleteExpense(@PathVariable Long id){
-
+    public ResponseEntity<Void> deleteExpense(@PathVariable Long id){
+        expenseApiService.deleteExpenseFromId(id);
+        return ResponseEntity.noContent().build();
     }
 
 

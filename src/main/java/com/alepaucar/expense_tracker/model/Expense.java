@@ -12,7 +12,7 @@ public class Expense {
     private String description;
     private float  amount;
     //relacion unidireccional
-    //el jopin coluimn indica la columna que conteng a la FK, y estas son id de otras entidades
+    //el join coluimn indica la columna que conteng a la FK, y estas son id de otras entidades
     @OneToOne
     @JoinColumn(name="category_id")
     private Category category;

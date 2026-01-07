@@ -15,7 +15,7 @@ import lombok.Setter;
 public class ExpenseReqDTO {
     private String description;
     private float  amount;
-    private Category category;
-    private User user;
+    private Long categoryId;
+    private Long userId;
 
 }
