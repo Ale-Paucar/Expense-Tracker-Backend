@@ -12,4 +12,5 @@ import lombok.Setter;
 public class CategoryResDTO {
     private Long id;
     private String category;
+    private String type;
 }

@@ -2,7 +2,9 @@ package com.alepaucar.expense_tracker.services;
 
 import com.alepaucar.expense_tracker.DTO.CategoryReqDTO;
 import com.alepaucar.expense_tracker.DTO.CategoryResDTO;
+import com.alepaucar.expense_tracker.exceptions.NotFoundException;
 import com.alepaucar.expense_tracker.model.Category;
+import com.alepaucar.expense_tracker.model.CategoryType;
 import com.alepaucar.expense_tracker.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +21,21 @@ public class CategoryApiService {
 
 
     public CategoryResDTO getCategoryFromId(Long id) {
-        Category category = categoryRepository.getById(id);
-        return new CategoryResDTO(category.getId(),category.getCategory());
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category not found"));
+        return new CategoryResDTO(category.getId(),category.getCategory(), category.getType().getValue());
     }
 
     public CategoryResDTO addNewCategory(CategoryReqDTO categoryReqDTO) {
-        Category category = new Category(categoryReqDTO.getCategory());
+        Category category = new Category(
+                categoryReqDTO.getCategory(),
+                CategoryType.from(categoryReqDTO.getType())
+        );
         categoryRepository.save(category);
-        return new CategoryResDTO(category.getId(),category.getCategory());
+        return new CategoryResDTO(
+                category.getId(),
+                category.getCategory(),
+                category.getType().getValue()
+        );
     }
 
     public List<CategoryResDTO> getAllCategories() {
@@ -34,7 +43,8 @@ public class CategoryApiService {
                 .stream()
                 .map(c -> new CategoryResDTO(
                         c.getId(),
-                        c.getCategory()
+                        c.getCategory(),
+                        c.getType().getValue()
                 )).toList();
     }
 }

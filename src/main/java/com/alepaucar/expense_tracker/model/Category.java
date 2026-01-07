@@ -1,9 +1,6 @@
 package com.alepaucar.expense_tracker.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -13,11 +10,16 @@ public class Category {
     private Long id;
     private String category;
 
-    public Category(String category) {
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CategoryType type;
+
+    public Category(String category, CategoryType type) {
         this.category = category;
+        this.type = type;
     }
 
-    public Category(){
+    protected Category(){
 
     }
 
@@ -35,5 +37,13 @@ public class Category {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public CategoryType getType() {
+        return type;
+    }
+
+    public void setType(CategoryType type) {
+        this.type = type;
     }
 }

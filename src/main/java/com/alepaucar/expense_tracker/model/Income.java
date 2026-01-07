@@ -26,7 +26,7 @@ public class Income {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Income() {
+    protected Income() {
     }
 
     public String getDescription() {

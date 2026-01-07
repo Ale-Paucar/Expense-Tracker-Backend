@@ -28,7 +28,7 @@ public class Expense {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Expense() {
+    protected Expense() {
     }
 
     public Long getId() {
