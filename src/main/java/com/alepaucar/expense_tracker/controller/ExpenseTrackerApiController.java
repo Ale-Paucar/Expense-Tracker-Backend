@@ -1,0 +1,121 @@
+package com.alepaucar.expense_tracker.controller;
+
+import com.alepaucar.expense_tracker.DTO.*;
+import com.alepaucar.expense_tracker.services.CategoryApiService;
+import com.alepaucar.expense_tracker.services.ExpenseApiService;
+import com.alepaucar.expense_tracker.services.IncomeApiService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+public class ExpenseTrackerApiController {
+    private final IncomeApiService incomeApiService;
+    private final ExpenseApiService expenseApiService;
+    private final CategoryApiService categoryApiService;
+
+    public ExpenseTrackerApiController(IncomeApiService incomeApiService, ExpenseApiService expenseApiService, CategoryApiService categoryApiService) {
+        this.incomeApiService = incomeApiService;
+        this.expenseApiService = expenseApiService;
+        this.categoryApiService = categoryApiService;
+    }
+    /*-----Categories-----*/
+    //Get Category from id
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<CategoryResDTO> getCategory(@PathVariable Long id){
+        CategoryResDTO ctgry = categoryApiService.getCategoryFromId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(ctgry);
+    }
+    //create a new category
+    @PostMapping("/categories")
+    public ResponseEntity<CategoryResDTO> postNewCategory(@RequestBody CategoryReqDTO categoryReqDTO) {
+        CategoryResDTO ctgry = categoryApiService.addNewCategory(categoryReqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ctgry);
+    }
+    //get all categories
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryResDTO>> getAllCategories(){
+        List<CategoryResDTO> allCategories = categoryApiService.getAllCategories();
+        return ResponseEntity.status(HttpStatus.OK).body(allCategories);
+    }
+    /*-----Expenses-----*/
+    //Get expense
+    @GetMapping("/expense/{id}")
+    public ResponseEntity<ExpenseResDTO>  getExpense(@PathVariable Long id){
+        ExpenseResDTO res = expenseApiService.getExpenseFromId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
+    //Get all expenses, it can filter by month or category or both
+    @GetMapping("/expense")
+    public List<ExpenseResDTO> getAllExpenses(
+        @RequestParam(required = false) String Month,
+        @RequestParam(required = false) String category
+    ){
+        return new ArrayList<>();
+    }
+
+    //Add expense
+    @PostMapping("/expense")
+    public ResponseEntity<ExpenseResDTO>  createExpense(@RequestBody ExpenseReqDTO expenseReqDTO){
+        ExpenseResDTO res = expenseApiService.addNewExpense(expenseReqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(res);
+    }
+    //Update expense
+    @PutMapping("/expense/{id}")
+    public void updateExpense(@PathVariable Long id, @RequestBody ExpenseReqDTO expenseReqDTO){
+
+    }
+    //Delete expense
+    @DeleteMapping("/expense/{id}")
+    public void deleteExpense(@PathVariable Long id){
+
+    }
+
+
+    /*-----Income-----*/
+    //Get income
+    @GetMapping("/income/{id}")
+    public IncomeResDTO getIncome(@PathVariable Long id){
+        return new IncomeResDTO();
+    }
+    //Get all incomes, it can filter by month or category or both
+    @GetMapping("/income")
+    public List<IncomeResDTO> getAllIncomes(
+            @RequestParam(required = false) String Month,
+            @RequestParam(required = false) String category
+    ){
+        return new ArrayList<>();
+    }
+
+    //Add income
+    @PostMapping("/income")
+    public void createIncome(@RequestBody IncomeReqDTO incomeReqDTO){
+
+    }
+    //Update income
+    @PutMapping("/income/{id}")
+    public void updateIncome(@PathVariable Long id, @RequestBody IncomeReqDTO incomeReqDTO){
+
+    }
+    //Delete income
+    @DeleteMapping("/income/{id}")
+    public void deleteIncome(@PathVariable Long id){
+
+    }
+    /*-----Reports-----*/
+    @PostMapping("/budget")
+    public void createBudget(){
+
+    }
+    @GetMapping("/budget")
+    public void getBudget(){
+
+    }
+    @GetMapping("/report")
+    public void getReport(){
+        
+    }
+}

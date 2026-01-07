@@ -1,0 +1,12 @@
+package com.alepaucar.expense_tracker.repository;
+
+import com.alepaucar.expense_tracker.model.Expense;
+
+import com.alepaucar.expense_tracker.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ExpensesRepository extends JpaRepository<Expense,Long> {
+    List<Expense> findByUser(User user);
+}
