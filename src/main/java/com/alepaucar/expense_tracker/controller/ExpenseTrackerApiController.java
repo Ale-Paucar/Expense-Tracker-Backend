@@ -22,7 +22,7 @@ public class ExpenseTrackerApiController {
         this.expenseApiService = expenseApiService;
         this.categoryApiService = categoryApiService;
     }
-    /*-----Categories-----*/
+    /*----------Categories----------*/
     //Get Category from id
     @GetMapping("/categories/{id}")
     public ResponseEntity<CategoryResDTO> getCategory(@PathVariable Long id){
@@ -41,12 +41,12 @@ public class ExpenseTrackerApiController {
         List<CategoryResDTO> allCategories = categoryApiService.getAllCategories();
         return ResponseEntity.status(HttpStatus.OK).body(allCategories);
     }
-    /*-----Expenses-----*/
+    /*----------Expenses----------*/
     //Get expense
     @GetMapping("/expense/{id}")
     public ResponseEntity<ExpenseResDTO>  getExpense(@PathVariable Long id){
-        ExpenseResDTO res = expenseApiService.getExpenseFromId(id);
-        return ResponseEntity.status(HttpStatus.OK).body(res);
+        ExpenseResDTO expense = expenseApiService.getExpenseFromId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(expense);
     }
     //Get all expenses, it can filter by month or category or both
     @GetMapping("/expense")
@@ -76,12 +76,12 @@ public class ExpenseTrackerApiController {
         return ResponseEntity.noContent().build();
     }
 
-
-    /*-----Income-----*/
+    /*----------Income----------*/
     //Get income
     @GetMapping("/income/{id}")
-    public IncomeResDTO getIncome(@PathVariable Long id){
-        return new IncomeResDTO();
+    public ResponseEntity<IncomeResDTO>  getIncome(@PathVariable Long id){
+        IncomeResDTO income = incomeApiService.getIncomeFromId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(income);
     }
     //Get all incomes, it can filter by month or category or both
     @GetMapping("/income")
@@ -94,18 +94,21 @@ public class ExpenseTrackerApiController {
 
     //Add income
     @PostMapping("/income")
-    public void createIncome(@RequestBody IncomeReqDTO incomeReqDTO){
-
+    public  ResponseEntity<IncomeResDTO> createIncome(@RequestBody IncomeReqDTO incomeReqDTO){
+        IncomeResDTO income = incomeApiService.addNewIncome(incomeReqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(income);
     }
     //Update income
     @PutMapping("/income/{id}")
-    public void updateIncome(@PathVariable Long id, @RequestBody IncomeReqDTO incomeReqDTO){
-
+    public ResponseEntity<IncomeResDTO> updateIncome(@PathVariable Long id, @RequestBody IncomeReqDTO incomeReqDTO){
+        IncomeResDTO income = incomeApiService.updateExistingIncome(id,incomeReqDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(income);
     }
     //Delete income
     @DeleteMapping("/income/{id}")
-    public void deleteIncome(@PathVariable Long id){
-
+    public ResponseEntity<Void> deleteIncome(@PathVariable Long id){
+        expenseApiService.deleteExpenseFromId(id);
+        return ResponseEntity.noContent().build();
     }
     /*-----Reports-----*/
     @PostMapping("/budget")

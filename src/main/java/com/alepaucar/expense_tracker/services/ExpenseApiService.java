@@ -24,6 +24,16 @@ public class ExpenseApiService {
         this.userRepository = userRepository;
     }
 
+    private ExpenseResDTO toExpenseResDTO (Expense ex){
+        return new ExpenseResDTO(
+                ex.getId(),
+                ex.getDescription(),
+                ex.getAmount(),
+                ex.getCategory(),
+                ex.getUser(),
+                ex.getCreatedAt()
+        );
+    }
 
     public ExpenseResDTO getExpenseFromId(Long id) {
         Expense expense = expensesRepository.findById(id).orElseThrow(() -> new NotFoundException("Expense with id " + id+ " not found"));
@@ -57,17 +67,4 @@ public class ExpenseApiService {
         Expense expense = expensesRepository.findById(id).orElseThrow(() -> new NotFoundException("Expense with id " + id+ " not found"));
         expensesRepository.delete(expense);
     }
-
-    private ExpenseResDTO toExpenseResDTO (Expense ex){
-        return new ExpenseResDTO(
-                ex.getId(),
-                ex.getDescription(),
-                ex.getAmount(),
-                ex.getCategory(),
-                ex.getUser(),
-                ex.getCreatedAt()
-        );
-    }
-
-
 }

@@ -16,6 +16,6 @@ import java.time.LocalDateTime;
 public class IncomeReqDTO {
     private String description;
     private float  amount;
-    private Category category;
-    private User user;
+    private Long categoryId;
+    private Long userId;
 }
