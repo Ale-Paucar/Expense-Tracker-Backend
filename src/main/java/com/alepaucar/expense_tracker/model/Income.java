@@ -12,17 +12,19 @@ public class Income {
     private Long id;
     private String description;
     private float  amount;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable = false)
     private Category category;
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
     private LocalDateTime createdAt;
 
-    public Income(String description, float amount, Category category) {
+    public Income(String description, float amount, Category category, User user) {
         this.description = description;
         this.amount = amount;
         this.category = category;
+        this.user = user;
         this.createdAt = LocalDateTime.now();
     }
 

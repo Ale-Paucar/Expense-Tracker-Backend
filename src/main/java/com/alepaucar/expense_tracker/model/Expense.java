@@ -13,18 +13,19 @@ public class Expense {
     private float  amount;
     //relacion unidireccional
     //el join coluimn indica la columna que conteng a la FK, y estas son id de otras entidades
-    @OneToOne
-    @JoinColumn(name="category_id")
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable = false)
     private Category category;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
     private LocalDateTime createdAt;
 
-    public Expense(String description, float amount, Category category) {
+    public Expense(String description, float amount, Category category, User user) {
         this.description = description;
         this.amount = amount;
         this.category = category;
+        this.user = user;
         this.createdAt = LocalDateTime.now();
     }
 

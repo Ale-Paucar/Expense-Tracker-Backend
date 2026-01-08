@@ -50,11 +50,13 @@ public class ExpenseTrackerApiController {
     }
     //Get all expenses, it can filter by month or category or both
     @GetMapping("/expense")
-    public List<ExpenseResDTO> getAllExpenses(
-        @RequestParam(required = false) String Month,
-        @RequestParam(required = false) String category
+    public ResponseEntity<List<ExpenseResDTO>> getAllExpenses(
+        @RequestParam(required = false) Integer month,
+        @RequestParam(required = false) Integer year,
+        @RequestParam(required = false) Long categoryId
     ){
-        return new ArrayList<>();
+        List<ExpenseResDTO> expenses = expenseApiService.getAllExpenses(month, year, categoryId);
+        return ResponseEntity.status(HttpStatus.OK).body(expenses);
     }
 
     //Add expense
@@ -87,7 +89,7 @@ public class ExpenseTrackerApiController {
     @GetMapping("/income")
     public List<IncomeResDTO> getAllIncomes(
             @RequestParam(required = false) String Month,
-            @RequestParam(required = false) String category
+            @RequestParam(required = false) Long category
     ){
         return new ArrayList<>();
     }

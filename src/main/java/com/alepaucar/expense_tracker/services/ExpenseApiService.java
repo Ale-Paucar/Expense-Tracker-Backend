@@ -9,8 +9,11 @@ import com.alepaucar.expense_tracker.model.User;
 import com.alepaucar.expense_tracker.repository.CategoryRepository;
 import com.alepaucar.expense_tracker.repository.ExpensesRepository;
 import com.alepaucar.expense_tracker.repository.UserRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ExpenseApiService {
@@ -42,10 +45,12 @@ public class ExpenseApiService {
 
     public ExpenseResDTO addNewExpense(ExpenseReqDTO expenseReqDTO) {
         Category category = categoryRepository.findById(expenseReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + expenseReqDTO.getCategoryId() + " not found"));
+        User user = userRepository.findById(expenseReqDTO.getUserId()).orElseThrow(() -> new NotFoundException("User with id " + expenseReqDTO.getUserId() + " not found"));
             Expense expense = new Expense(
                     expenseReqDTO.getDescription(),
                     expenseReqDTO.getAmount(),
-                    category
+                    category,
+                    user
             );
             expensesRepository.save(expense);
             return toExpenseResDTO(expense);
@@ -66,5 +71,26 @@ public class ExpenseApiService {
     public void deleteExpenseFromId(Long id) {
         Expense expense = expensesRepository.findById(id).orElseThrow(() -> new NotFoundException("Expense with id " + id+ " not found"));
         expensesRepository.delete(expense);
+    }
+
+    public List<ExpenseResDTO> getAllExpenses(Integer month, Integer year, Long categoryId) {
+        int y = (year != null) ? year : LocalDateTime.now().getYear();
+        LocalDateTime start;
+        LocalDateTime end;
+        if (month != null) {
+
+            start = LocalDate.of(y, month, 1).atStartOfDay();
+            end   = start.plusMonths(1);
+        } else {
+
+            start = LocalDate.of(y, 1, 1).atStartOfDay();
+            end   = start.plusYears(1);
+        }
+
+        return expensesRepository
+                .findByRangeAndCategory(start, end, categoryId)
+                .stream()
+                .map(ex -> toExpenseResDTO(ex))
+                .toList();
     }
 }

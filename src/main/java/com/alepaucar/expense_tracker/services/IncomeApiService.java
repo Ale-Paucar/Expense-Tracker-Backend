@@ -43,10 +43,12 @@ public class IncomeApiService {
 
     public IncomeResDTO addNewIncome(IncomeReqDTO incomeReqDTO) {
         Category category = categoryRepository.findById(incomeReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + incomeReqDTO.getCategoryId() + " not found"));
+        User user = userRepository.findById(incomeReqDTO.getUserId()).orElseThrow(() -> new NotFoundException("User with id " + incomeReqDTO.getUserId() + " not found"));
         Income income = new Income(
                 incomeReqDTO.getDescription(),
                 incomeReqDTO.getAmount(),
-                category
+                category,
+                user
         );
         incomeRepository.save(income);
         return toIncomeResDTO(income);
