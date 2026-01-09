@@ -20,7 +20,7 @@ public interface ExpensesRepository extends JpaRepository<Expense,Long> {
         AND (:categoryId IS NULL OR e.category.id = :categoryId)
       ORDER BY e.createdAt DESC
     """)
-    List<Expense> findByRangeAndCategory(
+    List<Expense> findByUserRangeAndCategory(
             Long userId,
             LocalDateTime start,
             LocalDateTime end,

@@ -26,11 +26,14 @@ public class IncomeApiController {
     }
     //Get all incomes, it can filter by month or category or both
     @GetMapping("/income")
-    public List<IncomeResDTO> getAllIncomes(
-            @RequestParam(required = false) String Month,
-            @RequestParam(required = false) Long category
+    public ResponseEntity<List<IncomeResDTO>> getAllIncomes(
+            @RequestParam(required = false) Integer month,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = true) Long userId
     ){
-        return new ArrayList<>();
+        List<IncomeResDTO> incomes = incomeApiService.getAllIncomes(month,year,categoryId,userId);
+        return ResponseEntity.status(HttpStatus.OK).body(incomes);
     }
 
     //Add income

@@ -45,15 +45,16 @@ public class ExpenseApiService {
     private Category getCategory(ExpenseReqDTO expenseReqDTO){
         return categoryRepository.findById(expenseReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + expenseReqDTO.getCategoryId() + " not found"));
     }
-    //
+    //get Expense
     private Expense getExpense(Long expenseId){
         return expensesRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense with id " + expenseId + " not found"));
     }
+    ///////
     public ExpenseResDTO getExpenseFromId(Long id) {
         Expense expense = getExpense(id);
         return toExpenseResDTO(expense);
     }
-    ///////
+
     public ExpenseResDTO addNewExpense(ExpenseReqDTO expenseReqDTO) {
         Category category = getCategory(expenseReqDTO);
         User user = getUser(expenseReqDTO);
@@ -99,7 +100,7 @@ public class ExpenseApiService {
         }
 
         return expensesRepository
-                .findByRangeAndCategory(userId, start, end, categoryId)
+                .findByUserRangeAndCategory(userId, start, end, categoryId)
                 .stream()
                 .map(ex -> toExpenseResDTO(ex))
                 .toList();
