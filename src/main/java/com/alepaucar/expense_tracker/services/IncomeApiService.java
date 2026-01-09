@@ -70,4 +70,5 @@ public class IncomeApiService {
         Income income = incomeRepository.findById(id).orElseThrow(() -> new NotFoundException("Income with id " + id+ " not found"));
         incomeRepository.delete(income);
     }
+
 }

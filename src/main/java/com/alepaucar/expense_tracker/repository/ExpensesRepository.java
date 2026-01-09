@@ -14,13 +14,16 @@ public interface ExpensesRepository extends JpaRepository<Expense,Long> {
 
     @Query("""
       SELECT e FROM Expense e
-      WHERE e.createdAt >= :start
+      WHERE e.user.id = :userId
+        AND e.createdAt >= :start
         AND e.createdAt <  :end
         AND (:categoryId IS NULL OR e.category.id = :categoryId)
+      ORDER BY e.createdAt DESC
     """)
     List<Expense> findByRangeAndCategory(
+            Long userId,
             LocalDateTime start,
             LocalDateTime end,
-            Long categoryId
+            Long categoryI
     );
 }

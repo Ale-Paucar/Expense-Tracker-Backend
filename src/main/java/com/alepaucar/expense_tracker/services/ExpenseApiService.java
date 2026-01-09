@@ -26,7 +26,7 @@ public class ExpenseApiService {
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
     }
-
+    //mapper to dto
     private ExpenseResDTO toExpenseResDTO (Expense ex){
         return new ExpenseResDTO(
                 ex.getId(),
@@ -37,29 +37,40 @@ public class ExpenseApiService {
                 ex.getCreatedAt()
         );
     }
-
+    //get user
+    private User getUser(ExpenseReqDTO expenseReqDTO){
+        return userRepository.findById(expenseReqDTO.getUserId()).orElseThrow(() -> new NotFoundException("User with id " + expenseReqDTO.getUserId() + " not found"));
+    }
+    //get category
+    private Category getCategory(ExpenseReqDTO expenseReqDTO){
+        return categoryRepository.findById(expenseReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + expenseReqDTO.getCategoryId() + " not found"));
+    }
+    //
+    private Expense getExpense(Long expenseId){
+        return expensesRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense with id " + expenseId + " not found"));
+    }
     public ExpenseResDTO getExpenseFromId(Long id) {
-        Expense expense = expensesRepository.findById(id).orElseThrow(() -> new NotFoundException("Expense with id " + id+ " not found"));
+        Expense expense = getExpense(id);
+        return toExpenseResDTO(expense);
+    }
+    ///////
+    public ExpenseResDTO addNewExpense(ExpenseReqDTO expenseReqDTO) {
+        Category category = getCategory(expenseReqDTO);
+        User user = getUser(expenseReqDTO);
+        Expense expense = new Expense(
+                expenseReqDTO.getDescription(),
+                expenseReqDTO.getAmount(),
+                category,
+                user
+        );
+        expensesRepository.save(expense);
         return toExpenseResDTO(expense);
     }
 
-    public ExpenseResDTO addNewExpense(ExpenseReqDTO expenseReqDTO) {
-        Category category = categoryRepository.findById(expenseReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + expenseReqDTO.getCategoryId() + " not found"));
-        User user = userRepository.findById(expenseReqDTO.getUserId()).orElseThrow(() -> new NotFoundException("User with id " + expenseReqDTO.getUserId() + " not found"));
-            Expense expense = new Expense(
-                    expenseReqDTO.getDescription(),
-                    expenseReqDTO.getAmount(),
-                    category,
-                    user
-            );
-            expensesRepository.save(expense);
-            return toExpenseResDTO(expense);
-    }
-
     public ExpenseResDTO updateExistingExpense(Long id, ExpenseReqDTO expenseReqDTO) {
-        Expense expense = expensesRepository.findById(id).orElseThrow(() -> new NotFoundException("Expense with id " + id+ " not found"));
-        Category category = categoryRepository.findById(expenseReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + expenseReqDTO.getCategoryId() + " not found"));
-        User user = userRepository.findById(expenseReqDTO.getUserId()).orElseThrow(() -> new NotFoundException("User with id " + expenseReqDTO.getUserId() + " not found"));
+        Expense expense = getExpense(id);
+        Category category = getCategory(expenseReqDTO);
+        User user = getUser(expenseReqDTO);
         expense.setDescription(expenseReqDTO.getDescription());
         expense.setAmount(expenseReqDTO.getAmount());
         expense.setCategory(category);
@@ -69,11 +80,11 @@ public class ExpenseApiService {
     }
 
     public void deleteExpenseFromId(Long id) {
-        Expense expense = expensesRepository.findById(id).orElseThrow(() -> new NotFoundException("Expense with id " + id+ " not found"));
+        Expense expense = getExpense(id);
         expensesRepository.delete(expense);
     }
 
-    public List<ExpenseResDTO> getAllExpenses(Integer month, Integer year, Long categoryId) {
+    public List<ExpenseResDTO> getAllExpenses(Integer month, Integer year, Long categoryId, Long userId) {
         int y = (year != null) ? year : LocalDateTime.now().getYear();
         LocalDateTime start;
         LocalDateTime end;
@@ -88,7 +99,7 @@ public class ExpenseApiService {
         }
 
         return expensesRepository
-                .findByRangeAndCategory(start, end, categoryId)
+                .findByRangeAndCategory(userId, start, end, categoryId)
                 .stream()
                 .map(ex -> toExpenseResDTO(ex))
                 .toList();
