@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class UserReqDTO {
-    private Long id;
     private String username;
     private String email;
     private String firstName;
