@@ -1,4 +1,16 @@
 package com.alepaucar.expense_tracker.DTO;
 
-public record TransactionDTO() {
+import com.alepaucar.expense_tracker.model.Category;
+import com.alepaucar.expense_tracker.model.User;
+
+import java.time.LocalDateTime;
+
+public record TransactionDTO(
+        Long id,
+        String description,
+        float  amount,
+        Category category,
+        User user,
+        LocalDateTime createdAt
+) {
 }

@@ -19,8 +19,8 @@ public class UserApiController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserResDTO> getUser(@PathVariable Long userId){
-        UserResDTO user = userApiService.getUserFromId(userId);
+    public ResponseEntity<UserResDTO> getUser(@PathVariable Long id){
+        UserResDTO user = userApiService.getUserFromId(id);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
@@ -37,14 +37,14 @@ public class UserApiController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserResDTO> updateUserFromId(@PathVariable Long userId, @RequestBody UserReqDTO userReqDTO){
-        UserResDTO user = userApiService.updateExistingUser(userId, userReqDTO);
+    public ResponseEntity<UserResDTO> updateUserFromId(@PathVariable Long id, @RequestBody UserReqDTO userReqDTO){
+        UserResDTO user = userApiService.updateExistingUser(id, userReqDTO);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId){
-        userApiService.deleteUserFromId(userId);
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userApiService.deleteUserFromId(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,21 +1,8 @@
 package com.alepaucar.expense_tracker.DTO;
 
-import com.alepaucar.expense_tracker.model.Category;
-import com.alepaucar.expense_tracker.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class IncomeReqDTO {
-    private String description;
-    private float  amount;
-    private Long categoryId;
-    private Long userId;
-}
+public record IncomeReqDTO (
+    String description,
+    float  amount,
+    Long categoryId,
+    Long userId
+){}

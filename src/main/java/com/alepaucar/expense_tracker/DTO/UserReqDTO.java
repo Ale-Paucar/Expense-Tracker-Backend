@@ -1,21 +1,8 @@
 package com.alepaucar.expense_tracker.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class UserReqDTO {
-    private String username;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-}
+public record UserReqDTO (
+    String username,
+    String email,
+    String firstName,
+    String lastName
+){}

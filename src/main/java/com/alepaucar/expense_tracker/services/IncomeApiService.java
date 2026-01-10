@@ -43,11 +43,11 @@ public class IncomeApiService {
     }
     //get user
     private User getUser(IncomeReqDTO incomeReqDTO){
-        return userRepository.findById(incomeReqDTO.getUserId()).orElseThrow(() -> new NotFoundException("User with id " + incomeReqDTO.getUserId() + " not found"));
+        return userRepository.findById(incomeReqDTO.userId()).orElseThrow(() -> new NotFoundException("User with id " + incomeReqDTO.userId() + " not found"));
     }
     //get category
     private Category getCategory(IncomeReqDTO incomeReqDTO){
-        return categoryRepository.findById(incomeReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + incomeReqDTO.getCategoryId() + " not found"));
+        return categoryRepository.findById(incomeReqDTO.categoryId()).orElseThrow(() -> new NotFoundException("Category with id " + incomeReqDTO.categoryId() + " not found"));
     }
     //get Expense
     private Income getIncome(Long expenseId){
@@ -64,8 +64,8 @@ public class IncomeApiService {
         Category category = getCategory(incomeReqDTO);
         User user = getUser(incomeReqDTO);
         Income income = new Income(
-                incomeReqDTO.getDescription(),
-                incomeReqDTO.getAmount(),
+                incomeReqDTO.description(),
+                incomeReqDTO.amount(),
                 category,
                 user
         );
@@ -77,8 +77,8 @@ public class IncomeApiService {
         Income income = getIncome(id);
         Category category = getCategory(incomeReqDTO);
         User user = getUser(incomeReqDTO);
-        income.setDescription(incomeReqDTO.getDescription());
-        income.setAmount(incomeReqDTO.getAmount());
+        income.setDescription(incomeReqDTO.description());
+        income.setAmount(incomeReqDTO.amount());
         income.setCategory(category);
         income.setUser(user);
         incomeRepository.save(income);

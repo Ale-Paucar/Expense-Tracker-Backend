@@ -27,8 +27,8 @@ public class CategoryApiService {
 
     public CategoryResDTO addNewCategory(CategoryReqDTO categoryReqDTO) {
         Category category = new Category(
-                categoryReqDTO.getCategory(),
-                CategoryType.from(categoryReqDTO.getType())
+                categoryReqDTO.category(),
+                CategoryType.from(categoryReqDTO.type())
         );
         categoryRepository.save(category);
         return new CategoryResDTO(
@@ -46,5 +46,17 @@ public class CategoryApiService {
                         c.getCategory(),
                         c.getType().getValue()
                 )).toList();
+    }
+
+    public CategoryResDTO updateExistingCategory(Long id, CategoryReqDTO categoryReqDTO) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category not found"));
+        category.setCategory(categoryReqDTO.category());
+        category.setType(CategoryType.from(categoryReqDTO.type()));
+        categoryRepository.save(category);
+        return new CategoryResDTO(
+                category.getId(),
+                category.getCategory(),
+                category.getType().getValue()
+        );
     }
 }

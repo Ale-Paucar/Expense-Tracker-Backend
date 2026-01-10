@@ -25,5 +25,6 @@ public interface IncomeRepository extends JpaRepository<Income,Long> {
             LocalDateTime start,
             LocalDateTime end,
             Long categoryId
+
     );
 }

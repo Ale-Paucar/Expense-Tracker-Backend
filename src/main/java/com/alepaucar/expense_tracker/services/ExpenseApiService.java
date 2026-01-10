@@ -39,11 +39,11 @@ public class ExpenseApiService {
     }
     //get user
     private User getUser(ExpenseReqDTO expenseReqDTO){
-        return userRepository.findById(expenseReqDTO.getUserId()).orElseThrow(() -> new NotFoundException("User with id " + expenseReqDTO.getUserId() + " not found"));
+        return userRepository.findById(expenseReqDTO.userId()).orElseThrow(() -> new NotFoundException("User with id " + expenseReqDTO.userId() + " not found"));
     }
     //get category
     private Category getCategory(ExpenseReqDTO expenseReqDTO){
-        return categoryRepository.findById(expenseReqDTO.getCategoryId()).orElseThrow(() -> new NotFoundException("Category with id " + expenseReqDTO.getCategoryId() + " not found"));
+        return categoryRepository.findById(expenseReqDTO.categoryId()).orElseThrow(() -> new NotFoundException("Category with id " + expenseReqDTO.categoryId() + " not found"));
     }
     //get Expense
     private Expense getExpense(Long expenseId){
@@ -59,8 +59,8 @@ public class ExpenseApiService {
         Category category = getCategory(expenseReqDTO);
         User user = getUser(expenseReqDTO);
         Expense expense = new Expense(
-                expenseReqDTO.getDescription(),
-                expenseReqDTO.getAmount(),
+                expenseReqDTO.description(),
+                expenseReqDTO.amount(),
                 category,
                 user
         );
@@ -72,8 +72,8 @@ public class ExpenseApiService {
         Expense expense = getExpense(id);
         Category category = getCategory(expenseReqDTO);
         User user = getUser(expenseReqDTO);
-        expense.setDescription(expenseReqDTO.getDescription());
-        expense.setAmount(expenseReqDTO.getAmount());
+        expense.setDescription(expenseReqDTO.description());
+        expense.setAmount(expenseReqDTO.amount());
         expense.setCategory(category);
         expense.setUser(user);
         expensesRepository.save(expense);

@@ -24,6 +24,6 @@ public interface ExpensesRepository extends JpaRepository<Expense,Long> {
             Long userId,
             LocalDateTime start,
             LocalDateTime end,
-            Long categoryI
+            Long categoryId
     );
 }

@@ -47,10 +47,10 @@ public class UserApiService {
 
     public UserResDTO addNewUser(UserReqDTO userReqDTO) {
         User user = new User(
-                userReqDTO.getUsername(),
-                userReqDTO.getEmail(),
-                userReqDTO.getFirstName(),
-                userReqDTO.getLastName()
+                userReqDTO.username(),
+                userReqDTO.email(),
+                userReqDTO.firstName(),
+                userReqDTO.lastName()
         );
         userRepository.save(user);
         return toUserDTO(user);
@@ -58,10 +58,10 @@ public class UserApiService {
 
     public UserResDTO updateExistingUser(Long userId, UserReqDTO userReqDTO) {
         User user = getUser(userId);
-        user.setUsername(userReqDTO.getUsername());
-        user.setEmail(userReqDTO.getEmail());
-        user.setFirstName(userReqDTO.getFirstName());
-        user.setLastName(userReqDTO.getLastName());
+        user.setUsername(userReqDTO.username());
+        user.setEmail(userReqDTO.email());
+        user.setFirstName(userReqDTO.firstName());
+        user.setLastName(userReqDTO.lastName());
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
         return toUserDTO(user);

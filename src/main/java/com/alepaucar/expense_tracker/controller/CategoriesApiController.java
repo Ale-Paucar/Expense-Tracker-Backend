@@ -36,4 +36,10 @@ public class CategoriesApiController {
         List<CategoryResDTO> allCategories = categoryApiService.getAllCategories();
         return ResponseEntity.status(HttpStatus.OK).body(allCategories);
     }
+    //
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<CategoryResDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryReqDTO categoryReqDTO) {
+        CategoryResDTO ctgry = categoryApiService.updateExistingCategory(id, categoryReqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ctgry);
+    }
 }
