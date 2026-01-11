@@ -4,11 +4,10 @@ import com.alepaucar.expense_tracker.DTO.CategoryReqDTO;
 import com.alepaucar.expense_tracker.DTO.CategoryResDTO;
 import com.alepaucar.expense_tracker.exceptions.NotFoundException;
 import com.alepaucar.expense_tracker.model.Category;
-import com.alepaucar.expense_tracker.model.CategoryType;
+import com.alepaucar.expense_tracker.model.TransactionType;
 import com.alepaucar.expense_tracker.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +27,7 @@ public class CategoryApiService {
     public CategoryResDTO addNewCategory(CategoryReqDTO categoryReqDTO) {
         Category category = new Category(
                 categoryReqDTO.category(),
-                CategoryType.from(categoryReqDTO.type())
+                TransactionType.from(categoryReqDTO.type())
         );
         categoryRepository.save(category);
         return new CategoryResDTO(
@@ -51,7 +50,7 @@ public class CategoryApiService {
     public CategoryResDTO updateExistingCategory(Long id, CategoryReqDTO categoryReqDTO) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category not found"));
         category.setCategory(categoryReqDTO.category());
-        category.setType(CategoryType.from(categoryReqDTO.type()));
+        category.setType(TransactionType.from(categoryReqDTO.type()));
         categoryRepository.save(category);
         return new CategoryResDTO(
                 category.getId(),

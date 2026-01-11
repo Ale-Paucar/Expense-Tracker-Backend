@@ -1,9 +1,10 @@
 package com.alepaucar.expense_tracker.DTO;
 
-public record ExpenseReqDTO (
+public record   TransactionReqDTO(
         String description,
         float  amount,
         Long categoryId,
-        Long userId
+        Long userId,
+        String type
 ){ }
 

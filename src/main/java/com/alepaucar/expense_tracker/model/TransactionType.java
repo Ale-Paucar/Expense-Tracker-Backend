@@ -1,16 +1,16 @@
 package com.alepaucar.expense_tracker.model;
 
-public enum CategoryType {
+public enum TransactionType {
     INCOME("income")
     ,EXPENSE("expense");
 
     private String value;
 
-    CategoryType(String value){
+    TransactionType(String value){
         this.value=value;
     }
 
-    public static CategoryType from(String value) {
+    public static TransactionType from(String value) {
         //depending on the string sent by the client...
         return switch (value.toLowerCase()) {
             case "income" -> INCOME;

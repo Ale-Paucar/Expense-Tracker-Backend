@@ -12,9 +12,9 @@ public class Category {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CategoryType type;
+    private TransactionType type;
 
-    public Category(String category, CategoryType type) {
+    public Category(String category, TransactionType type) {
         this.category = category;
         this.type = type;
     }
@@ -39,11 +39,11 @@ public class Category {
         this.category = category;
     }
 
-    public CategoryType getType() {
+    public TransactionType getType() {
         return type;
     }
 
-    public void setType(CategoryType type) {
+    public void setType(TransactionType type) {
         this.type = type;
     }
 }

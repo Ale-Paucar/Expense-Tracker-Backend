@@ -1,27 +1,25 @@
 package com.alepaucar.expense_tracker.services;
 
-import com.alepaucar.expense_tracker.model.Expense;
-import com.alepaucar.expense_tracker.model.Income;
-import com.alepaucar.expense_tracker.repository.ExpensesRepository;
-import com.alepaucar.expense_tracker.repository.IncomeRepository;
+import com.alepaucar.expense_tracker.model.Transaction;
+
+import com.alepaucar.expense_tracker.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ReportApiService {
-    private final IncomeRepository incomeRepository;
-    private final ExpensesRepository expensesRepository;
+    private final TransactionRepository transactionRepository;
 
-    public ReportApiService(IncomeRepository incomeRepository, ExpensesRepository expensesRepository) {
-        this.incomeRepository = incomeRepository;
-        this.expensesRepository = expensesRepository;
+    public ReportApiService( TransactionRepository transactionRepository) {
+
+        this.transactionRepository = transactionRepository;
     }
 
     public void getReport(Long id){
-        List<Income> incomes = incomeRepository.findAll();
-        List<Expense> expenses = expensesRepository.findAll();
 
-        List<TransactionDTO> transactions = List.of(incomes,expenses);
+        List<Transaction> expens = transactionRepository.findAll();
+
+
     }
 }
