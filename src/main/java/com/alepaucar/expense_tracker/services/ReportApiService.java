@@ -18,7 +18,7 @@ public class ReportApiService {
 
     public void getReport(Long id){
 
-        List<Transaction> expens = transactionRepository.findAll();
+        List<Transaction> transactions = transactionRepository.findAll();
 
 
     }

@@ -11,6 +11,9 @@ public enum TransactionType {
     }
 
     public static TransactionType from(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
         //depending on the string sent by the client...
         return switch (value.toLowerCase()) {
             case "income" -> INCOME;

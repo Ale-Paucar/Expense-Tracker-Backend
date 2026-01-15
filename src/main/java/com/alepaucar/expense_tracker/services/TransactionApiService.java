@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionApiService {
@@ -92,7 +93,7 @@ public class TransactionApiService {
     }
 
     public List<TransactionResDTO> getAllTransactions(Integer month, Integer year, Long categoryId, Long userId, String transactionType) {
-        int y = (year != null) ? year : LocalDateTime.now().getYear();
+         int y =  (year != null)  ? year : LocalDateTime.now().getYear();
         LocalDateTime start;
         LocalDateTime end;
         if (month != null) {
@@ -107,10 +108,13 @@ public class TransactionApiService {
             end   = start.plusYears(1);
         }
         TransactionType type = TransactionType.from(transactionType);
+
+
         return transactionRepository
                 .findAllTransactions(userId, start, end, categoryId, type)
                 .stream()
                 .map(t -> toTransactionResDTO(t))
                 .toList();
     }
+
 }
