@@ -1,5 +1,6 @@
 # Expense Tracker API
-
+Inspirado a partir de:
+https://roadmap.sh/projects/expense-tracker
 ## Descripción
 
 API REST desarrollada con **Spring Boot** para gestionar **usuarios, categorías y transacciones personales** (ingresos y gastos). Permite filtrar transacciones, generar reportes en formato **.CSV**, este es un proyecto práctico de backend.
